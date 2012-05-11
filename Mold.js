@@ -273,8 +273,8 @@
             var update
             for (var i = 0; i < this.updates.length; i++) {
                 update = this.updates[i]
+                this.updateOne(update, {})
                 if (!update.dependencies.length) {
-                    this.updateOne(update, {})
                     this.updates.splice(i, 1)
                     i--
                 }
@@ -428,5 +428,6 @@
 
 
     if (typeof define !== 'undefined' && define.amd) define(function () { return Mold }) // AMD
+    else if (typeof module !== 'undefined') module.exports = Mold // commonjs
     else window.Mold = Mold // old skool browser
 }())

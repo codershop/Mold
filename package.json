@@ -1,0 +1,22 @@
+{
+  "author": "Rob Middleton <rob@i.tv>",
+  "name": "Mold",
+  "description": "a new kind of templating",
+  "version": "0.0.1",
+  "homepage": "https://github.com/idottv/Mold",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/idottv/Mold.git"
+  },
+  "scripts": {
+    "test": "mocha test/main"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "jsdom": "0.2.14"
+  },
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  }
+}

@@ -19,7 +19,7 @@
   "engines": {
     "node": "*"
   },
-  "main": "mould.js",
+  "main": "mold.js",
   "keywords": [
     "template",
     "browser",

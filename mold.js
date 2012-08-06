@@ -273,8 +273,18 @@
             var update
             for (var i = 0; i < this.updates.length; i++) {
                 update = this.updates[i]
-                this.updateOne(update, {})
+
+                // avoid stupid http requests by delaying setting an img src until after it is updated
+                if (!(update.type === "attribute" && update.name === "src")) {
+                    this.updateOne(update, {})
+                }
+
                 if (!update.dependencies.length) {
+                    // unless the image has no dependencies, then it as the correct src now
+                    if (update.type === "attribute" && update.name === "src") {
+                        this.updateOne(update, {})
+                    }
+
                     this.updates.splice(i, 1)
                     i--
                 }
@@ -302,7 +312,7 @@
             if (node.tag === "TextNode") {
                 dom = document.createTextNode("")
                 ents = this.entitize(node.html)
-                
+
                 updates.push({
                     type: "html",
                     dependencies: ents.dependencies,
@@ -421,8 +431,8 @@
                     }
                 }
             }
-            
-            return str  
+
+            return str
         }
     }
 

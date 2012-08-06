@@ -1,6 +1,7 @@
 {
+  "name": "moldjs",
   "author": "Rob Middleton <rob@i.tv>",
-  "name": "Mold",
+  "contributors": ["Jamison Dance <jergason@gmail.com> (http://jamisondance.com)"],
   "description": "a new kind of templating",
   "version": "0.0.1",
   "homepage": "https://github.com/idottv/Mold",
@@ -15,8 +16,13 @@
   "devDependencies": {
     "jsdom": "0.2.14"
   },
-  "optionalDependencies": {},
   "engines": {
     "node": "*"
-  }
+  },
+  "main": "mold.js",
+  "keywords": [
+    "template",
+    "browser",
+    "dom"
+  ]
 }

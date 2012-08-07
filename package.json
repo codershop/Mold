@@ -3,7 +3,7 @@
   "author": "Rob Middleton <rob@i.tv>",
   "contributors": ["Jamison Dance <jergason@gmail.com> (http://jamisondance.com)"],
   "description": "a new kind of templating",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "https://github.com/idottv/Mold",
   "repository": {
     "type": "git",
@@ -14,7 +14,8 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "jsdom": "0.2.14"
+    "jsdom": "0.2.14",
+    "mocha": "1.3.2"
   },
   "engines": {
     "node": "*"

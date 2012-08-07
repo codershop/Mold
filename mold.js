@@ -213,7 +213,7 @@
     }
 
     Mold.prototype = {
-        // if there was a way to make this parse tree without using the http parser that would be sweet
+        // if there was a way to make this parse tree without using the html parser that would be sweet
         makeParseTree: function (str) {
             this.tree = []
             var branch = {children: this.tree}

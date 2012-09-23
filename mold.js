@@ -224,6 +224,14 @@
 
             new SimpleHtmlParser().parse(str, {
                 startElement: function (tag, attrs) {
+                    // ignore self closing tag slashes <input />
+                    for (var i = 0; i < attrs.length; i++) {
+                        if (attrs[i].name === "/") {
+                            attrs.splice(i, 1)
+                            i--
+                        }
+                    }
+
                     elem = {
                         tag: tag,
                         attrs: attrs,

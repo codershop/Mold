@@ -302,7 +302,7 @@
             if (node.tag === "TextNode") {
                 dom = document.createTextNode("")
                 ents = this.entitize(node.html)
-                
+
                 updates.push({
                     type: "html",
                     dependencies: ents.dependencies,
@@ -348,7 +348,7 @@
                 for (var i = 0; i < this.updatesByDependency[name].length; i++) {
                     update = this.updatesByDependency[name][i]
                     if (updated[update.index]) continue
-                    this.updateOne(update, obj)
+                    this.updateOne(update, obj, this.domState)
                     updated[update.index] = true
                 }
                 this.domState[name] = obj[name]
@@ -357,12 +357,12 @@
             return this
         },
 
-        updateOne: function (update, obj) {
+        updateOne: function (update, obj, previousObj) {
             if (update.type === "html") {
-                update.dom.nodeValue = this.renderEntities(update.entities, obj)
+                update.dom.nodeValue = this.renderEntities(update.entities, obj, previousObj)
             }
             else if (update.type === "attribute") {
-                update.dom.setAttribute(update.name, this.renderEntities(update.entities, obj))
+                update.dom.setAttribute(update.name, this.renderEntities(update.entities, obj, previousObj))
             }
         },
 
@@ -406,7 +406,7 @@
             }
         },
 
-        renderEntities: function (entities, data) {
+        renderEntities: function (entities, data, previousData) {
             var str = ""
             var entity
 
@@ -419,10 +419,17 @@
                     if (data[entity.name] !== undefined) {
                         str += data[entity.name]
                     }
+                    // render with previous state in case 1 update has multiple entities
+                    else if (
+                        previousData && previousData[entity.name] !== undefined
+                        && !data.hasOwnProperty(entity.name) // this means they actually specified entity.name in data and it is set to undefined, so in this case we actually want to use undefined
+                    ) {
+                        str += previousData[entity.name]
+                    }
                 }
             }
-            
-            return str  
+
+            return str
         }
     }
 

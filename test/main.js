@@ -4,7 +4,7 @@ var jsdom = require('jsdom')
 var Mold, window
 
 beforeEach(function (done) {
-  jsdom.env('<div></div>', ['../Mold.js'], 
+  jsdom.env('<div></div>', ['../Mold.js'],
   function (err, win) {
     window = win
     Mold = window.Mold
@@ -156,6 +156,17 @@ describe('variable entities', function () {
 
     mold.update({ name: undefined })
     assert.equal('', dom[0].childNodes[0].nodeValue)
+  })
+
+  it('should use previous values when 2 separate updates affect the same thing', function () {
+    var mold = new Mold('<div>{{firstName}} {{lastName}}</div>')
+
+    var dom = mold.create()
+
+    mold.update({ firstName: 'Rob' })
+    mold.update({ lastName: 'Middleton' })
+
+    assert.equal('Rob Middleton', dom[0].childNodes[0].nodeValue)
   })
 })
 

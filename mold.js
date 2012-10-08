@@ -213,7 +213,7 @@
     }
 
     Mold.prototype = {
-        // if there was a way to make this parse tree without using the http parser that would be sweet
+        // if there was a way to make this parse tree without using the html parser that would be sweet
         makeParseTree: function (str) {
             this.tree = []
             var branch = {children: this.tree}
@@ -224,6 +224,14 @@
 
             new SimpleHtmlParser().parse(str, {
                 startElement: function (tag, attrs) {
+                    // ignore self closing tag slashes <input />
+                    for (var i = 0; i < attrs.length; i++) {
+                        if (attrs[i].name === "/") {
+                            attrs.splice(i, 1)
+                            i--
+                        }
+                    }
+
                     elem = {
                         tag: tag,
                         attrs: attrs,
@@ -273,8 +281,18 @@
             var update
             for (var i = 0; i < this.updates.length; i++) {
                 update = this.updates[i]
-                this.updateOne(update, {})
+
+                // avoid stupid http requests by delaying setting an img src until after it is updated
+                if (!(update.type === "attribute" && update.name === "src")) {
+                    this.updateOne(update, {})
+                }
+
                 if (!update.dependencies.length) {
+                    // unless the image has no dependencies, then it as the correct src now
+                    if (update.type === "attribute" && update.name === "src") {
+                        this.updateOne(update, {})
+                    }
+
                     this.updates.splice(i, 1)
                     i--
                 }

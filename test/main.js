@@ -4,10 +4,18 @@ var jsdom = require('jsdom')
 var Mold, window
 
 beforeEach(function (done) {
-  jsdom.env('<div></div>', ['../Mold.js'],
+  jsdom.env('<div></div>', ['../mold.js'],
   function (err, win) {
     window = win
     Mold = window.Mold
+
+    // pass logs through
+    window.console = {
+      log: function () {
+        console.log.apply(console, arguments)
+      }
+    }
+
     done(err)
   })
 })
@@ -80,6 +88,12 @@ describe('html parsing', function () {
 
     assert.equal('#text', children[2].nodeName)
     assert.equal(' thanks for reading the tests.', children[2].nodeValue)
+  })
+
+  it('should handle self closing tags', function () {
+    var mold = new Mold('<input />')
+    mold.create() // create will throw errors if mold doesn't ignore the / and tries to set it as an attribute
+    new Mold('<input/>').create()
   })
 })
 
